@@ -1,0 +1,17 @@
+# Core Agent Framework
+langgraph
+langchain
+langchain-groq
+groq
+
+# System Interactions
+requests
+python-dotenv
+
+# UI
+streamlit
+pandas
+
+# Utilities
+pydantic
+typing-extensions

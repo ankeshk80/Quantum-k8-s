@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oomkill-demo
+  labels:
+    app: whisperer-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oomkill-demo
+  template:
+    metadata:
+      labels:
+        app: oomkill-demo
+    spec:
+      containers:
+      - name: oomkill-demo
+        image: python:3.9-slim
+        # Intentionally consume RAM by accumulating 1MB strings infinitely
+        command: ["python", "-c", "a = []; \nwhile True:\n  a.append(' ' * 1024 * 1024)"]
+        resources:
+          limits:
+            memory: "64Mi"
+          requests:
+            memory: "32Mi"

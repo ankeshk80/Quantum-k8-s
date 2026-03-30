@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k8s-whisperer-agent
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-operator-role
+  namespace: default
+rules:
+  # Observe cluster events (read-only)
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["get", "list", "watch"]
+  # Pod-level operations (restarts/deletions)
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch", "delete"]
+  # Observe deployments for labels/metadata (read-only)
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: k8s-whisperer-binding
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: k8s-whisperer-agent
+    namespace: default
+roleRef:
+  kind: Role
+  name: pod-operator-role
+  apiGroup: rbac.authorization.k8s.io

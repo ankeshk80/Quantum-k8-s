@@ -1,0 +1,7 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+audit_log.json
+sim_active.txt
+.vscode/
